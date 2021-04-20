@@ -1,0 +1,32 @@
+#!/bin/bash
+
+sudo update -y
+sudo yum install -y git
+sudo yum install -y nano
+sudo yum install -y mc
+sudo yum install -y net-tools
+sudo yum install -y bind-utils
+
+git clone https://github.com/cherevkoai/code.git
+
+#Dowland MySQL 
+#sudo wget http://repo.mysql.com/mysql57-community-release-el7.rpm
+#sudo rpm -ivh mysql57-community-release-el7.rpm
+#sudo update -y
+#sudo yum install mysql-server
+#sudo sudo systemctl start mysqld
+
+#Dowland PostgreSQL 9.2
+#sudo yum install postgresql postgresql-server
+#sudo postgresql-setup initdb
+#sudo systemctl enable postgresql && systemctl start postgresql
+ 
+#Download Docker-ce
+sudo yum install -y yum-utils
+sudo yum-config-manager \
+    --add-repo \
+    https://download.docker.com/linux/centos/docker-ce.repo
+sudo yum install docker-ce docker-ce-cli containerd.io
+sudo systemctl start docker
+
+sudo yum upgrage -y
