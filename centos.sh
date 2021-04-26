@@ -26,7 +26,6 @@ sudo yum -y install jenkins java-1.8.0-openjdk-devel
 sudo systemctl daemon-reload
 
 #Install Postgres 9.2
-Dowland PostgreSQL 9.2
 sudo yum install postgresql postgresql-server
 sudo postgresql-setup initdb
 sudo systemctl enable postgresql && systemctl start postgresql
