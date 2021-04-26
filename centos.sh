@@ -8,6 +8,7 @@ sudo yum install -y htop
 sudo yum install -y mc
 sudo yum install -y net-tools
 sudo yum install -y bind-utils
+sudo yum install -y wget
 
 git clone https://github.com/cherevkoai/code.git
 
