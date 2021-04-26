@@ -4,7 +4,8 @@ sudo apt-get update -y
 
 #sudo apt-get install -y htop
 #sudo apt-get install -y net-tools
-#sudp apt-get install -y nmap
+#sudo apt-get install -y nmap
+#sudo apt-get install -y wget
 
 #sudo apt-get install -y python3 python3-pip
 
