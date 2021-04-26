@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo yum update
+sudo yum update -y
 
 sudo yum install -y nano
 sudo yum install -y git
@@ -31,4 +31,4 @@ sudo yum install postgresql postgresql-server
 sudo postgresql-setup initdb
 sudo systemctl enable postgresql && systemctl start postgresql
 
-#sudo yum upgrade
+#sudo yum upgrade -y
