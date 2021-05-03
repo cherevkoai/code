@@ -25,4 +25,6 @@ sudo apt-get update -y
 #sudo apt-get update -y
 #sudo apt-get install -y jenkins
 
+#sudo snap install intellij-idea-community --classic --edge
+
 sudo apt-get upgrade -y
