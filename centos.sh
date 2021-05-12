@@ -15,8 +15,15 @@ sudo yum update -y
 #sudo yum install -y pytho3 python3-pip
 
 #Install Docker-Ce
-#sudo yum install -y docker-ce docker-ce-cli containerd.io
-#sudo systemctl start docker -y
+#sudo yum install -y yum-utils
+#sudo yum-config-manager \
+#    --add-repo \
+#    https://download.docker.com/linux/centos/docker-ce.repo
+#sudo yum-config-manager --enable docker-ce-test
+#sudo yum-config-manager --disable docker-ce-nightly
+#sudo yum install docker-ce docker-ce-cli containerd.io
+#yum list docker-ce --showduplicates | sort -r
+#sudo systemctl start docker
 
 #Install Jenkins
 #sudo wget -O /etc/yum.repos.d/jenkins.repo \
