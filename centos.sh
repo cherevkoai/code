@@ -42,13 +42,13 @@ sudo yum update -y
 #sudo postgresql-setup initdb
 #sudo systemctl enable postgresql && systemctl start postgresql
 #Download Nginx Source
-#wget https://nginx.org/download/nginx-1.19.0.tar.gz
-#tar zxf nginx-1.19.0.tar.gz
-#cd nginx-1.19.0
 
 #Install Nginx CtntOS
 #sudo yum install epel-release
 #sudo yum install nginx
 #service nginx start
+#wget https://nginx.org/download/nginx-1.19.0.tar.gz
+#tar zxf nginx-1.19.0.tar.gz
+#cd nginx-1.19.0
 
 sudo yum upgrade -y
