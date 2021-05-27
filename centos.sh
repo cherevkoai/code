@@ -42,4 +42,9 @@ sudo yum update -y
 #sudo postgresql-setup initdb
 #sudo systemctl enable postgresql && systemctl start postgresql
 
+#Install Nginx CtntOS
+#sudo yum install epel-release
+#sudo yum install nginx
+#service nginx start
+
 sudo yum upgrade -y
