@@ -51,4 +51,16 @@ sudo yum update -y
 #tar zxf nginx-1.19.0.tar.gz
 #cd nginx-1.19.0
 
+#Download Zabbix 4.2 
+#sudo yum install mc
+#mcedit /etc/sysconfig/selinux
+#-------меняем значение SELINUX=disabled-------------------------
+#-------выполняем команду reboot---------------------------------
+#sudo yum install mariadb mariadb-server
+#systemctl start mariadb
+#/usr/bin/mysql_secure_installation
+#repo.zabbix.com/zabbix/4.2/rhel/7/x86_64/zabbix-release-4.2-1.el7.noarch.rpm
+#yum install -y zabbix-server-mysql zabbix-web-mysql
+
+
 sudo yum upgrade -y
