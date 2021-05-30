@@ -1,3 +1,5 @@
+#https://serveradmin.ru/ustanovka-i-nastroyka-zabbix-4-0/
+
 #Download Zabbix 4.2 
 
 # systemctl stop firewalld
