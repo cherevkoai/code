@@ -53,26 +53,29 @@
 # /usr/bin/mysql_secure_installation
 #Внесем некоторые изменения в стандартный конфиг mariadb, чтобы потом не заниматься очисткой и оптимизацией базы для zabbix. Для этого открываем конфиг mysql /etc/my.cnf.d/server.cnf и приводим его к следующему виду.
 # mcedit /etc/my.cnf.d/server.cnf
-#[client]
-#port		= 3306
-#socket		= /var/lib/mysql/mysql.sock
-#default-character-set=utf8
 
-#[mysqld]
-#character_set_server=utf8
-#collation-server=utf8_bin 
-#init_connect="SET NAMES utf8 collate utf8_bin"
-#port = 3306
-#socket = /var/lib/mysql/mysql.sock
-#innodb_file_per_table=1 innodb_buffer_pool_size = 768M # внимание на параметр! установить примерно в 2 раза меньше объема оперативной памяти сервера
-#innodb_buffer_pool_instances=1 # увеличивать на 1 каждый GB
-#innodb_buffer_pool_size
-#innodb_flush_log_at_trx_commit = 0
-#innodb_log_file_size = 512M
-#innodb_log_files_in_group = 3
-#innodb-strict-mode = OFF
-#[server]
-#[galera]
-#[embedded]
-#[mariadb]
-#[mariadb-10.3]
+#echo "[client]" >> /etc/my.cnf.d/server.cnf
+#echo "port		= 3306" >> /etc/my.cnf.d/server.cnf
+#echo "socket		= /var/lib/mysql/mysql.sock" >> /etc/my.cnf.d/server.cnf
+#echo "default-character-set=utf8" >> /etc/my.cnf.d/server.cnf
+
+#echo "[mysqld]" >> /etc/my.cnf.d/server.cnf
+#echo "character_set_server=utf8" >> /etc/my.cnf.d/server.cnf
+#echo "collation-server=utf8_bin" >> /etc/my.cnf.d/server.cnf
+#echo "init_connect="SET NAMES utf8 collate utf8_bin" >> /etc/my.cnf.d/server.cnf
+#echo "port = 3306" >> /etc/my.cnf.d/server.cnf
+#echo "socket = /var/lib/mysql/mysql.sock" >> /etc/my.cnf.d/server.cnf
+# внимание на параметр! установить примерно в 2 раза меньше объема оперативной памяти сервера:
+#echo "innodb_file_per_table=1 innodb_buffer_pool_size = 768M" >> /etc/my.cnf.d/server.cnf
+# увеличивать на 1 каждый GB:
+#echo "innodb_buffer_pool_instances=1" >> /etc/my.cnf.d/server.cnf
+#echo "innodb_buffer_pool_size" >> /etc/my.cnf.d/server.cnf
+#echo "innodb_flush_log_at_trx_commit = 0:" >> /etc/my.cnf.d/server.cnf
+#echo "innodb_log_file_size = 512M" >> /etc/my.cnf.d/server.cnf
+#echo "innodb_log_files_in_group = 3" >> /etc/my.cnf.d/server.cnf
+#echo "innodb-strict-mode = OFF" >> /etc/my.cnf.d/server.cnf
+#echo "[server]" >> /etc/my.cnf.d/server.cnf
+#echo "[galera]" >> /etc/my.cnf.d/server.cnf
+#echo "[embedded]" >> /etc/my.cnf.d/server.cnf
+#echo "[mariadb]" >> /etc/my.cnf.d/server.cnf
+#echo "[mariadb-10.3]" >> /etc/my.cnf.d/server.cnf
