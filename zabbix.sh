@@ -22,7 +22,7 @@
 # netstat -tulpn | grep php-fpm
 #tcp        0      0 127.0.0.1:9000          0.0.0.0:*               LISTEN      13261/php-fpm: mast
 #Все в порядке, запустился на порту 9000. Запустим его через unix сокет. Для этого открываем конфиг /etc/php-fpm.d/www.conf и комментируем строку:
-## mcedit /etc/php-fpm.d/www.conf
+#mcedit /etc/php-fpm.d/www.conf
 #;listen = 127.0.0.1:9000
 #echo "listen = /var/run/php-fpm/php-fpm.sock" >> /etc/php-fpm.d/www.conf
 #echo "listen.mode = 0660" >> /etc/php-fpm.d/www.conf
