@@ -80,7 +80,29 @@
 #echo "[mariadb]" >> /etc/my.cnf.d/server.cnf
 #echo "[mariadb-10.3]" >> /etc/my.cnf.d/server.cnf
 
-#Перезапустите mariadb и убедитесь, что она запустилась.
-# systemctl restart mariadb
-# systemctl status mariadb.service
+#Установка сервера Zabbix 4.0 в CentOS
+
+# rpm -Uvh https://repo.zabbix.com/zabbix/4.0/rhel/7/x86_64/zabbix-release-4.0-1.el7.noarch.rpm
+# yum install zabbix-server-mysql zabbix-web-mysql
+
+#В зависимостях пакетов будет httpd, который нам не нужен, так как у нас будет nginx и php7.1, но я не разбирался, как поставить без него. После установки пакетов, создадим базу данных, пользователя zabbix и заполним базу.
+# mysql -uroot -p
+
+#Теперь редактируем файл конфигурации сервера заббикс. Прописываем данные для подключения к БД, отключаем ipv6 и увеличиваем стандартный timeout.
+# mcedit /etc/zabbix/zabbix_server.conf
+#Изменяем указанные строки, остальные не трогаем:
+#DBHost=localhost
+#DBName=zabbix
+#DBUser=zabbix
+#DBPassword=zabpassword
+#ListenIP=0.0.0.0
+#Timeout=10
+
+#Запускаем zabbix и добавляем в автозагрузку.
+# systemctl start zabbix-server
+# systemctl enable zabbix-server
+
+#Проверяем лог файл на наличие ошибок.
+# cat /var/log/zabbix/zabbix_server.log
+
 
