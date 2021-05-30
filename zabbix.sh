@@ -69,7 +69,7 @@
 #echo "innodb_file_per_table=1 innodb_buffer_pool_size = 768M" >> /etc/my.cnf.d/server.cnf
 # увеличивать на 1 каждый GB:
 #echo "innodb_buffer_pool_instances=1" >> /etc/my.cnf.d/server.cnf
-#######echo "innodb_buffer_pool_size" >> /etc/my.cnf.d/server.cnf
+#######echo "innodb_buffer_pool_size" >> /etc/my.cnf.d/server.cnf с этой строкой ошибка MariaDB
 #echo "innodb_flush_log_at_trx_commit = 0" >> /etc/my.cnf.d/server.cnf
 #echo "innodb_log_file_size = 512M" >> /etc/my.cnf.d/server.cnf
 #echo "innodb_log_files_in_group = 3" >> /etc/my.cnf.d/server.cnf
@@ -79,3 +79,8 @@
 #echo "[embedded]" >> /etc/my.cnf.d/server.cnf
 #echo "[mariadb]" >> /etc/my.cnf.d/server.cnf
 #echo "[mariadb-10.3]" >> /etc/my.cnf.d/server.cnf
+
+#Перезапустите mariadb и убедитесь, что она запустилась.
+# systemctl restart mariadb
+# systemctl status mariadb.service
+
