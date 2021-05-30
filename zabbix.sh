@@ -1,4 +1,5 @@
 #Download Zabbix 4.2 
+
 # systemctl stop firewalld
 # systemctl disable firewalld
 #Подключаем репозиторий nginx и устанавливаем его:
@@ -23,26 +24,26 @@
 #Все в порядке, запустился на порту 9000. Запустим его через unix сокет. Для этого открываем конфиг /etc/php-fpm.d/www.conf и комментируем строку:
 ## mcedit /etc/php-fpm.d/www.conf
 #;listen = 127.0.0.1:9000
-#listen = /var/run/php-fpm/php-fpm.sock
-#listen.mode = 0660
-#listen.owner = nginx
-#listen.group = nginx
+#echo "listen = /var/run/php-fpm/php-fpm.sock" >> /etc/php-fpm.d/www.conf
+#echo "listen.mode = 0660" >> /etc/php-fpm.d/www.conf
+#echo "listen.owner = nginx" >> /etc/php-fpm.d/www.conf
+#echo "listen.group = nginx" >> /etc/php-fpm.d/www.conf
 #Заодно измените пользователя, от которого будет работать php-fpm. Вместо apache укажите nginx, отредактировав соответствующие параметры.
-#user = nginx
-#group = nginx
+#user = nginx изменить apache на nginx
+#group = nginx изменить apache на nginx
 #Перезапускаем php-fpm.
 # systemctl restart php-fpm
 #Проверяем, стартовал ли указанный сокет.
-# ll /var/run/php-fpm/php-fpm.sock 
+#ll /var/run/php-fpm/php-fpm.sock 
 # mcedit /etc/yum.repos.d/mariadb.repo
 #записываем в файл:
-# MariaDB 10.3 CentOS repository list - created 2018-10-04 12:10 UTC
-# http://downloads.mariadb.org/mariadb/repositories/
-#[mariadb]
-#name = MariaDB
-#baseurl = http://yum.mariadb.org/10.3/centos7-amd64
-#gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
-#gpgcheck=1
+#echo "echo "MariaDB 10.3 CentOS repository list - created 2018-10-04 12:10 UTC" >>
+#echo "http://downloads.mariadb.org/mariadb/repositories/" >> /etc/yum.repos.d/mariadb.repo
+#echo "[mariadb]" >> /etc/yum.repos.d/mariadb.repo
+#echo "name = MariaDB" >> /etc/yum.repos.d/mariadb.repo
+#echo "baseurl = http://yum.mariadb.org/10.3/centos7-amd64" >> /etc/yum.repos.d/mariadb.repo
+#echo "gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB" >> /etc/yum.repos.d/mariadb.repo
+#echo "gpgcheck=1" >> /etc/yum.repos.d/mariadb.repo
 #Устанавливаем последнюю версию mariadb на centos.
 # yum install MariaDB-server MariaDB-client
 #Запускаем mariadb и добавляем в автозагрузку.
