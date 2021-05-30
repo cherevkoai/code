@@ -62,7 +62,7 @@
 #echo "[mysqld]" >> /etc/my.cnf.d/server.cnf
 #echo "character_set_server=utf8" >> /etc/my.cnf.d/server.cnf
 #echo "collation-server=utf8_bin" >> /etc/my.cnf.d/server.cnf
-#echo "init_connect="SET NAMES utf8 collate utf8_bin" >> /etc/my.cnf.d/server.cnf
+#echo "init_connect=\"SET NAMES utf8 collate utf8_bin"\" >> /etc/my.cnf.d/server.cnf
 #echo "port = 3306" >> /etc/my.cnf.d/server.cnf
 #echo "socket = /var/lib/mysql/mysql.sock" >> /etc/my.cnf.d/server.cnf
 # внимание на параметр! установить примерно в 2 раза меньше объема оперативной памяти сервера:
