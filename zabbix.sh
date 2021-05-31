@@ -89,6 +89,10 @@
 
 #В зависимостях пакетов будет httpd, который нам не нужен, так как у нас будет nginx и php7.1, но я не разбирался, как поставить без него. После установки пакетов, создадим базу данных, пользователя zabbix и заполним базу.
 # mysql -uroot -p
+#в СУБД создаем базу и структуру:
+#> create database zabbix character set utf8 collate utf8_bin;
+#> grant all privileges on zabbix.* to zabbix@localhost identified by 'zabpassword';
+#exit
 
 #Теперь редактируем файл конфигурации сервера заббикс. Прописываем данные для подключения к БД, отключаем ipv6 и увеличиваем стандартный timeout.
 # mcedit /etc/zabbix/zabbix_server.conf
@@ -107,4 +111,53 @@
 #Проверяем лог файл на наличие ошибок.
 # cat /var/log/zabbix/zabbix_server.log
 
+#Настройка SELinux с zabbix
 
+# yum install policycoreutils-python
+# cd ~
+# curl https://support.zabbix.com/secure/attachment/53320/zabbix_server_add.te > zabbix_server_add.te
+# checkmodule -M -m -o zabbix_server_add.mod zabbix_server_add.te
+# semodule_package -m zabbix_server_add.mod -o zabbix_server_add.pp
+# semodule -i zabbix_server_add.pp
+
+#Теперь нам надо перезапустить zabbix-server.
+#systemctl restart zabbix-server
+
+#Если у вас это не получится сделать через systemctl, значит служба зависла. Завершаем ее принудительно и запускаем снова.
+# kill -9 `pidof zabbix_server`
+# systemctl start zabbix-server
+
+#С серверной частью закончили. Нам нужно сделать конфиг nginx для работы web интерфейса zabbix на сервере с Centos 7. Если у вас nginx работает на том же сервере, где сам zabbix, и других виртуальных хостов нет и не будет, то правьте сразу дефолтный - /etc/nginx/conf.d/default.conf. Приводим его к следующему виду:
+# mcedit /etc/nginx/conf.d/default.conf
+#server {
+#    listen       80;
+#    server_name  localhost;
+#    root /usr/share/zabbix;
+
+#    location / {
+#	index index.php index.html index.htm;
+#    }
+
+#    location ~ \.php$ {
+#	fastcgi_pass unix:/var/run/php-fpm/php-fpm.sock;
+#	fastcgi_index index.php;
+#	fastcgi_param SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+#	include fastcgi_params;
+#	fastcgi_param PHP_VALUE "
+#	max_execution_time = 300
+#	memory_limit = 128M
+#	post_max_size = 16M
+#	upload_max_filesize = 2M
+#	max_input_time = 300
+#	date.timezone = Europe/Moscow
+#	always_populate_raw_post_data = -1
+#	";
+#	fastcgi_buffers 8 256k;
+#	fastcgi_buffer_size 128k;
+#	fastcgi_intercept_errors on;
+#	fastcgi_busy_buffers_size 256k;
+#	fastcgi_temp_file_write_size 256k;
+#        }
+#}
+
+#В браузере вводим сдрес сервера
