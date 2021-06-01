@@ -65,8 +65,7 @@
 #echo "character_set_server=utf8" >> /etc/my.cnf.d/server.cnf
 #echo "collation-server=utf8_bin" >> /etc/my.cnf.d/server.cnf
 #echo "init_connect=\"SET NAMES utf8 collate utf8_bin"\" >> /etc/my.cnf.d/server.cnf
-#echo "port = 3306" >> /etc/my.cnf.d/server.cnf
-#echo "socket = /var/lib/mysql/mysql.sock" >> /etc/my.cnf.d/server.cnf
+#echo "port = 3306 socket = /var/lib/mysql/mysql.sock" >> /etc/my.cnf.d/server.cnf
 # внимание на параметр! установить примерно в 2 раза меньше объема оперативной памяти сервера:
 #echo "innodb_file_per_table=1 innodb_buffer_pool_size = 768M" >> /etc/my.cnf.d/server.cnf
 # увеличивать на 1 каждый GB:
