@@ -24,6 +24,9 @@
 # netstat -tulpn | grep php-fpm
 #tcp        0      0 127.0.0.1:9000          0.0.0.0:*               LISTEN      13261/php-fpm: mast
 #Все в порядке, запустился на порту 9000. Запустим его через unix сокет. Для этого открываем конфиг /etc/php-fpm.d/www.conf и комментируем строку:
+
+
+
 #mcedit /etc/php-fpm.d/www.conf
 #;listen = 127.0.0.1:9000
 #echo "listen = /var/run/php-fpm/php-fpm.sock" >> /etc/php-fpm.d/www.conf
@@ -33,6 +36,9 @@
 #Заодно измените пользователя, от которого будет работать php-fpm. Вместо apache укажите nginx, отредактировав соответствующие параметры.
 #user = nginx изменить apache на nginx
 #group = nginx изменить apache на nginx
+
+
+
 #Перезапускаем php-fpm.
 # systemctl restart php-fpm
 #Проверяем, стартовал ли указанный сокет.
@@ -70,7 +76,6 @@
 #echo "innodb_file_per_table=1 innodb_buffer_pool_size = 768M" >> /etc/my.cnf.d/server.cnf
 # увеличивать на 1 каждый GB:
 #echo "innodb_buffer_pool_instances=1" >> /etc/my.cnf.d/server.cnf
-#######echo "innodb_buffer_pool_size" >> /etc/my.cnf.d/server.cnf с этой строкой ошибка MariaDB
 #echo "innodb_flush_log_at_trx_commit = 0" >> /etc/my.cnf.d/server.cnf
 #echo "innodb_log_file_size = 512M" >> /etc/my.cnf.d/server.cnf
 #echo "innodb_log_files_in_group = 3" >> /etc/my.cnf.d/server.cnf
@@ -86,12 +91,15 @@
 # rpm -Uvh https://repo.zabbix.com/zabbix/4.0/rhel/7/x86_64/zabbix-release-4.0-1.el7.noarch.rpm
 # yum install -y zabbix-server-mysql zabbix-web-mysql
 
+
 #В зависимостях пакетов будет httpd, который нам не нужен, так как у нас будет nginx и php7.1, но я не разбирался, как поставить без него. После установки пакетов, создадим базу данных, пользователя zabbix и заполним базу.
 # mysql -uroot -p
 #в СУБД создаем базу и структуру:
 #> create database zabbix character set utf8 collate utf8_bin;
 #> grant all privileges on zabbix.* to zabbix@localhost identified by 'zabpassword';
 #exit
+
+
 
 #Теперь редактируем файл конфигурации сервера заббикс. Прописываем данные для подключения к БД, отключаем ipv6 и увеличиваем стандартный timeout.
 # mcedit /etc/zabbix/zabbix_server.conf
@@ -102,6 +110,8 @@
 #DBPassword=zabpassword
 #ListenIP=0.0.0.0
 #Timeout=10
+
+
 
 #Запускаем zabbix и добавляем в автозагрузку.
 # systemctl start zabbix-server
@@ -134,8 +144,8 @@
 #    echo "root /usr/share/zabbix;" >> /etc/nginx/conf.d/default.conf
 
 #    echo "location / {" >> /etc/nginx/conf.d/default.conf
-#	echo "index index.php index.html index.htm;" >> 
-#    echo "}" >>
+#	echo "index index.php index.html index.htm;" >> /etc/nginx/conf.d/default.conf
+#    echo "}" >> /etc/nginx/conf.d/default.conf
 
 #    echo "location ~ \.php$ {" >> /etc/nginx/conf.d/default.conf
 #	echo "fastcgi_pass unix:/var/run/php-fpm/php-fpm.sock;" >> /etc/nginx/conf.d/default.conf
