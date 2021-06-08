@@ -1,7 +1,8 @@
 #https://serveradmin.ru/ustanovka-i-nastroyka-zabbix-4-0/
 
-#Download Zabbix 4.2 
+#Download Zabbix 4.0
 
+####################################STEP 1##################################################################
 # systemctl stop firewalld
 # systemctl disable firewalld
 #Подключаем репозиторий nginx и устанавливаем его:
@@ -20,13 +21,15 @@
 #Запускаем php-fpm и добавляем в автозагрузку.
 # systemctl start php-fpm
 # systemctl enable php-fpm
+###############################################################################################################
+
 #Проверяем, запустился ли он.
 # netstat -tulpn | grep php-fpm
 #tcp        0      0 127.0.0.1:9000          0.0.0.0:*               LISTEN      13261/php-fpm: mast
 #Все в порядке, запустился на порту 9000. Запустим его через unix сокет. Для этого открываем конфиг /etc/php-fpm.d/www.conf и комментируем строку:
 
 
-
+#########################################STEP 2################################################################
 #mcedit /etc/php-fpm.d/www.conf
 #;listen = 127.0.0.1:9000
 #echo "listen = /var/run/php-fpm/php-fpm.sock" >> /etc/php-fpm.d/www.conf
@@ -36,13 +39,17 @@
 #Заодно измените пользователя, от которого будет работать php-fpm. Вместо apache укажите nginx, отредактировав соответствующие параметры.
 #user = nginx изменить apache на nginx
 #group = nginx изменить apache на nginx
+###############################################################################################################
 
 
 
+
+##########################################STEP 3###############################################################
 #Перезапускаем php-fpm.
 # systemctl restart php-fpm
 #Проверяем, стартовал ли указанный сокет.
 #ll /var/run/php-fpm/php-fpm.sock 
+
 
 # mcedit /etc/yum.repos.d/mariadb.repo
 #записываем в файл:
@@ -53,7 +60,10 @@
 #echo "baseurl = http://yum.mariadb.org/10.3/centos7-amd64" >> /etc/yum.repos.d/mariadb.repo
 #echo "gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB" >> /etc/yum.repos.d/mariadb.repo
 #echo "gpgcheck=1" >> /etc/yum.repos.d/mariadb.repo
+################################################################################################################
 
+
+###########################################STEP 4##############################################################
 #Устанавливаем последнюю версию mariadb на centos.
 # yum install -y MariaDB-server MariaDB-client
 #Запускаем mariadb и добавляем в автозагрузку.
@@ -62,6 +72,12 @@
 #Запускаем скрипт начальной конфигурации mysql и задаем пароль для root. Все остальное можно оставить по-умолчанию.
 # /usr/bin/mysql_secure_installation
 #Внесем некоторые изменения в стандартный конфиг mariadb, чтобы потом не заниматься очисткой и оптимизацией базы для zabbix. Для этого открываем конфиг mysql /etc/my.cnf.d/server.cnf и приводим его к следующему виду.
+################################################################################################################
+
+
+
+
+###############################################STEP 5###########################################################
 # mcedit /etc/my.cnf.d/server.cnf
 
 #echo "[client]" > /etc/my.cnf.d/server.cnf
@@ -87,22 +103,28 @@
 #echo "[embedded]" >> /etc/my.cnf.d/server.cnf
 #echo "[mariadb]" >> /etc/my.cnf.d/server.cnf
 #echo "[mariadb-10.3]" >> /etc/my.cnf.d/server.cnf
+###############################################################################################################
 
+
+
+#############################################STEP 6############################################################
 #Установка сервера Zabbix 4.0 в CentOS
 
 # rpm -Uvh https://repo.zabbix.com/zabbix/4.0/rhel/7/x86_64/zabbix-release-4.0-1.el7.noarch.rpm
 # yum install -y zabbix-server-mysql zabbix-web-mysql
 
 
-#В зависимостях пакетов будет httpd, который нам не нужен, так как у нас будет nginx и php7.1, но я не разбирался, как поставить без него. После установки пакетов, создадим базу данных, пользователя zabbix и заполним базу.
+#В зависимостях пакетов будет httpd, который нам не нужен, так как у нас будет nginx и php7.1. После установки пакетов, создадим базу данных, пользователя zabbix и заполним базу.
 # mysql -uroot -p
 #в СУБД создаем базу и структуру:
 #> create database zabbix character set utf8 collate utf8_bin;
 #> grant all privileges on zabbix.* to zabbix@localhost identified by 'zabpassword';
 #exit
+#############################################################################################################
 
 
 
+#######################################STEP 7###############################################################
 #Теперь редактируем файл конфигурации сервера заббикс. Прописываем данные для подключения к БД, отключаем ipv6 и увеличиваем стандартный timeout.
 # mcedit /etc/zabbix/zabbix_server.conf
 #Изменяем указанные строки, остальные не трогаем:
@@ -112,9 +134,10 @@
 #DBPassword=zabpassword
 #ListenIP=0.0.0.0
 #Timeout=10
+##############################################################################################################
 
 
-
+#########################################STEP 8##############################################################
 #Запускаем zabbix и добавляем в автозагрузку.
 # systemctl start zabbix-server
 # systemctl enable zabbix-server
@@ -137,40 +160,40 @@
 #Если у вас это не получится сделать через systemctl, значит служба зависла. Завершаем ее принудительно и запускаем снова.
 # kill -9 `pidof zabbix_server`
 # systemctl start zabbix-server
+################################################################################################################
 
+
+
+############################################STEP 9#############################################################
 #С серверной частью закончили. Нам нужно сделать конфиг nginx для работы web интерфейса zabbix на сервере с Centos 7. Если у вас nginx работает на том же сервере, где сам zabbix, и других виртуальных хостов нет и не будет, то правьте сразу дефолтный - /etc/nginx/conf.d/default.conf. Приводим его к следующему виду:
 # mcedit /etc/nginx/conf.d/default.conf
-#echo "server {" > /etc/nginx/conf.d/default.conf
-#    echo "listen       80;" >> /etc/nginx/conf.d/default.conf
-#    echo "server_name  localhost;" >> /etc/nginx/conf.d/default.conf
-#    echo "root /usr/share/zabbix;" >> /etc/nginx/conf.d/default.conf
+echo "server {
+    listen       80;
+    server_name  localhost;
+    root /usr/share/zabbix;
 
-#    echo "location / {" >> /etc/nginx/conf.d/default.conf
-#	echo "index index.php index.html index.htm;" >> /etc/nginx/conf.d/default.conf
-#    echo "}" >> /etc/nginx/conf.d/default.conf
+    location / {
+    index index.php index.html index.htm;
+    }
 
-#    echo "location ~ \.php$ {" >> /etc/nginx/conf.d/default.conf
-#	echo "fastcgi_pass unix:/var/run/php-fpm/php-fpm.sock;" >> /etc/nginx/conf.d/default.conf
-#	echo "fastcgi_index index.php;" >> /etc/nginx/conf.d/default.conf
-#	echo "fastcgi_param SCRIPT_FILENAME  $document_root$fastcgi_script_name;" >> /etc/nginx/conf.d/default.conf
-#	echo "include fastcgi_params;" >> /etc/nginx/conf.d/default.conf
-#	echo "fastcgi_param PHP_VALUE "\ " >> /etc/nginx/conf.d/default.conf
-#	echo "max_execution_time = 300" >> /etc/nginx/conf.d/default.conf
-#	echo "memory_limit = 128M" >> /etc/nginx/conf.d/default.conf
-#	echo "post_max_size = 16M" >> /etc/nginx/conf.d/default.conf
-#	echo "upload_max_filesize = 2M" >> /etc/nginx/conf.d/default.conf
-#	echo "max_input_time = 300" >> /etc/nginx/conf.d/default.conf
-#	echo "date.timezone = Europe/Kiev" >> /etc/nginx/conf.d/default.conf
-#	echo "always_populate_raw_post_data = -1" >> /etc/nginx/conf.d/default.conf
-#	echo ";" >> /etc/nginx/conf.d/default.conf
-#	echo "fastcgi_buffers 8 256k;" >> /etc/nginx/conf.d/default.conf
-#	echo "fastcgi_buffer_size 128k;" >> /etc/nginx/conf.d/default.conf
-#	echo "fastcgi_intercept_errors on;" >> /etc/nginx/conf.d/default.conf
-#	echo "fastcgi_busy_buffers_size 256k;" >> /etc/nginx/conf.d/default.conf
-#	echo "fastcgi_temp_file_write_size 256k;" >> /etc/nginx/conf.d/default.conf
-#        echo "}" >> /etc/nginx/conf.d/default.conf
-#echo "}" >> /etc/nginx/conf.d/default.conf
+    location ~ \.php$ {
+    fastcgi_pass unix:/run/php-fpm/zabbix.sock;
+    fastcgi_index index.php;
+    fastcgi_param SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+    include fastcgi_params;
+    fastcgi_buffers 8 256k;
+    fastcgi_buffer_size 128k;
+    fastcgi_intercept_errors on;
+    fastcgi_busy_buffers_size 256k;
+    fastcgi_temp_file_write_size 256k;
+        }
+}" > /etc/nginx/conf.d/default.conf
 
+##############################################################################################################
+
+
+
+################################STEP 10#######################################################################
 #Маленький, но важный нюанс. Нам надо изменить права доступа на некоторые папки. Назначить владельца nginx.
 # chown -R nginx:nginx /var/lib/php/session
 # chown -R nginx:nginx /etc/zabbix/web
@@ -180,6 +203,4 @@
 #Даем разрешения SELinux для работы заббикса с web сервером и базой данных.
 # setsebool -P httpd_can_connect_zabbix on
 # setsebool -P httpd_can_network_connect_db on
-
-
-#В браузере вводим сдрес сервера
+##############################################################################################################
