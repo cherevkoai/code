@@ -43,6 +43,7 @@
 # systemctl restart php-fpm
 #Проверяем, стартовал ли указанный сокет.
 #ll /var/run/php-fpm/php-fpm.sock 
+
 # mcedit /etc/yum.repos.d/mariadb.repo
 #записываем в файл:
 #echo "#MariaDB 10.3 CentOS repository list - created 2018-10-04 12:10 UTC" >> /etc/yum.repos.d/mariadb.repo
