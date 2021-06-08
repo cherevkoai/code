@@ -6,17 +6,17 @@
 # systemctl disable firewalld
 #Подключаем репозиторий nginx и устанавливаем его:
 # rpm -Uvh http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm
-# yum install nginx
+# yum install -y nginx
 # systemctl start nginx
 # systemctl enable nginx
 #Дальше устанавливаем php-fpm. Для этого подключаем репозиторий remi и epel-release.
-# yum install epel-release
+# yum install -y epel-release
 # rpm -Uhv http://rpms.remirepo.net/enterprise/remi-release-7.rpm
 #Активируем репу remi-php71, для этого выполняем команды:
-# yum install yum-utils
+# yum install -y yum-utils
 # yum-config-manager --enable remi-php71
 #Устанавливаем php 7.1 и модули к нему.
-# yum install php71 php-fpm php-cli php-mysql php-gd php-ldap php-odbc php-pdo php-pecl-memcache php-pear php-xml php-xmlrpc php-mbstring php-snmp php-soap php-bcmath
+# yum install -y php71 php-fpm php-cli php-mysql php-gd php-ldap php-odbc php-pdo php-pecl-memcache php-pear php-xml php-xmlrpc php-mbstring php-snmp php-soap php-bcmath
 #Запускаем php-fpm и добавляем в автозагрузку.
 # systemctl start php-fpm
 # systemctl enable php-fpm
@@ -47,7 +47,7 @@
 #echo "gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB" >> /etc/yum.repos.d/mariadb.repo
 #echo "gpgcheck=1" >> /etc/yum.repos.d/mariadb.repo
 #Устанавливаем последнюю версию mariadb на centos.
-# yum install MariaDB-server MariaDB-client
+# yum install -y MariaDB-server MariaDB-client
 #Запускаем mariadb и добавляем в автозагрузку.
 # systemctl start mariadb
 # systemctl enable mariadb
@@ -56,7 +56,7 @@
 #Внесем некоторые изменения в стандартный конфиг mariadb, чтобы потом не заниматься очисткой и оптимизацией базы для zabbix. Для этого открываем конфиг mysql /etc/my.cnf.d/server.cnf и приводим его к следующему виду.
 # mcedit /etc/my.cnf.d/server.cnf
 
-#echo "[client]" >> /etc/my.cnf.d/server.cnf
+#echo "[client]" > /etc/my.cnf.d/server.cnf
 #echo "port		= 3306" >> /etc/my.cnf.d/server.cnf
 #echo "socket		= /var/lib/mysql/mysql.sock" >> /etc/my.cnf.d/server.cnf
 #echo "default-character-set=utf8" >> /etc/my.cnf.d/server.cnf
@@ -84,7 +84,7 @@
 #Установка сервера Zabbix 4.0 в CentOS
 
 # rpm -Uvh https://repo.zabbix.com/zabbix/4.0/rhel/7/x86_64/zabbix-release-4.0-1.el7.noarch.rpm
-# yum install zabbix-server-mysql zabbix-web-mysql
+# yum install -y zabbix-server-mysql zabbix-web-mysql
 
 #В зависимостях пакетов будет httpd, который нам не нужен, так как у нас будет nginx и php7.1, но я не разбирался, как поставить без него. После установки пакетов, создадим базу данных, пользователя zabbix и заполним базу.
 # mysql -uroot -p
@@ -112,7 +112,7 @@
 
 #Настройка SELinux с zabbix
 
-# yum install policycoreutils-python
+# yum install -y policycoreutils-python
 # cd ~
 # curl https://support.zabbix.com/secure/attachment/53320/zabbix_server_add.te > zabbix_server_add.te
 # checkmodule -M -m -o zabbix_server_add.mod zabbix_server_add.te
@@ -128,36 +128,36 @@
 
 #С серверной частью закончили. Нам нужно сделать конфиг nginx для работы web интерфейса zabbix на сервере с Centos 7. Если у вас nginx работает на том же сервере, где сам zabbix, и других виртуальных хостов нет и не будет, то правьте сразу дефолтный - /etc/nginx/conf.d/default.conf. Приводим его к следующему виду:
 # mcedit /etc/nginx/conf.d/default.conf
-#server {
-#    listen       80;
-#    server_name  localhost;
-#    root /usr/share/zabbix;
+#echo "server {" > /etc/nginx/conf.d/default.conf
+#    echo "listen       80;" >> /etc/nginx/conf.d/default.conf
+#    echo "server_name  localhost;" >> /etc/nginx/conf.d/default.conf
+#    echo "root /usr/share/zabbix;" >> /etc/nginx/conf.d/default.conf
 
-#    location / {
-#	index index.php index.html index.htm;
-#    }
+#    echo "location / {" >> /etc/nginx/conf.d/default.conf
+#	echo "index index.php index.html index.htm;" >> 
+#    echo "}" >>
 
-#    location ~ \.php$ {
-#	fastcgi_pass unix:/var/run/php-fpm/php-fpm.sock;
-#	fastcgi_index index.php;
-#	fastcgi_param SCRIPT_FILENAME  $document_root$fastcgi_script_name;
-#	include fastcgi_params;
-#	fastcgi_param PHP_VALUE "
-#	max_execution_time = 300
-#	memory_limit = 128M
-#	post_max_size = 16M
-#	upload_max_filesize = 2M
-#	max_input_time = 300
-#	date.timezone = Europe/Moscow
-#	always_populate_raw_post_data = -1
-#	";
-#	fastcgi_buffers 8 256k;
-#	fastcgi_buffer_size 128k;
-#	fastcgi_intercept_errors on;
-#	fastcgi_busy_buffers_size 256k;
-#	fastcgi_temp_file_write_size 256k;
-#        }
-#}
+#    echo "location ~ \.php$ {" >> /etc/nginx/conf.d/default.conf
+#	echo "fastcgi_pass unix:/var/run/php-fpm/php-fpm.sock;" >> /etc/nginx/conf.d/default.conf
+#	echo "fastcgi_index index.php;" >> /etc/nginx/conf.d/default.conf
+#	echo "fastcgi_param SCRIPT_FILENAME  $document_root$fastcgi_script_name;" >> /etc/nginx/conf.d/default.conf
+#	echo "include fastcgi_params;" >> /etc/nginx/conf.d/default.conf
+#	echo "fastcgi_param PHP_VALUE "\" >> /etc/nginx/conf.d/default.conf
+#	echo "max_execution_time = 300" >> /etc/nginx/conf.d/default.conf
+#	echo "memory_limit = 128M" >> /etc/nginx/conf.d/default.conf
+#	echo "post_max_size = 16M" >> /etc/nginx/conf.d/default.conf
+#	echo "upload_max_filesize = 2M" >> /etc/nginx/conf.d/default.conf
+#	echo "max_input_time = 300" >> /etc/nginx/conf.d/default.conf
+#	echo "date.timezone = Europe/Moscow" >> /etc/nginx/conf.d/default.conf
+#	echo "always_populate_raw_post_data = -1" >> /etc/nginx/conf.d/default.conf
+#	echo " ";" >> /etc/nginx/conf.d/default.conf
+#	echo "fastcgi_buffers 8 256k;" >> /etc/nginx/conf.d/default.conf
+#	echo "fastcgi_buffer_size 128k;" >> /etc/nginx/conf.d/default.conf
+#	echo "fastcgi_intercept_errors on;" >> /etc/nginx/conf.d/default.conf
+#	echo "fastcgi_busy_buffers_size 256k;" >> /etc/nginx/conf.d/default.conf
+#	echo "fastcgi_temp_file_write_size 256k;" >> /etc/nginx/conf.d/default.conf
+#        echo "}" >> /etc/nginx/conf.d/default.conf
+#echo "}" >> /etc/nginx/conf.d/default.conf
 
 #Маленький, но важный нюанс. Нам надо изменить права доступа на некоторые папки. Назначить владельца nginx.
 # chown -R nginx:nginx /var/lib/php/session
