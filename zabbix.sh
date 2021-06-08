@@ -160,7 +160,7 @@
 #	echo "post_max_size = 16M" >> /etc/nginx/conf.d/default.conf
 #	echo "upload_max_filesize = 2M" >> /etc/nginx/conf.d/default.conf
 #	echo "max_input_time = 300" >> /etc/nginx/conf.d/default.conf
-#	echo "date.timezone = Europe/Moscow" >> /etc/nginx/conf.d/default.conf
+#	echo "date.timezone = Europe/Kiev" >> /etc/nginx/conf.d/default.conf
 #	echo "always_populate_raw_post_data = -1" >> /etc/nginx/conf.d/default.conf
 #	echo ";" >> /etc/nginx/conf.d/default.conf
 #	echo "fastcgi_buffers 8 256k;" >> /etc/nginx/conf.d/default.conf
