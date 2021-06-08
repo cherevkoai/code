@@ -154,7 +154,7 @@
 #	echo "fastcgi_index index.php;" >> /etc/nginx/conf.d/default.conf
 #	echo "fastcgi_param SCRIPT_FILENAME  $document_root$fastcgi_script_name;" >> /etc/nginx/conf.d/default.conf
 #	echo "include fastcgi_params;" >> /etc/nginx/conf.d/default.conf
-#	echo "fastcgi_param PHP_VALUE "\" >> /etc/nginx/conf.d/default.conf
+#	echo "fastcgi_param PHP_VALUE "\ " >> /etc/nginx/conf.d/default.conf
 #	echo "max_execution_time = 300" >> /etc/nginx/conf.d/default.conf
 #	echo "memory_limit = 128M" >> /etc/nginx/conf.d/default.conf
 #	echo "post_max_size = 16M" >> /etc/nginx/conf.d/default.conf
@@ -162,7 +162,7 @@
 #	echo "max_input_time = 300" >> /etc/nginx/conf.d/default.conf
 #	echo "date.timezone = Europe/Moscow" >> /etc/nginx/conf.d/default.conf
 #	echo "always_populate_raw_post_data = -1" >> /etc/nginx/conf.d/default.conf
-#	echo " ";" >> /etc/nginx/conf.d/default.conf
+#	echo ";" >> /etc/nginx/conf.d/default.conf
 #	echo "fastcgi_buffers 8 256k;" >> /etc/nginx/conf.d/default.conf
 #	echo "fastcgi_buffer_size 128k;" >> /etc/nginx/conf.d/default.conf
 #	echo "fastcgi_intercept_errors on;" >> /etc/nginx/conf.d/default.conf
