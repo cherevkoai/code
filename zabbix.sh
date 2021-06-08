@@ -52,6 +52,7 @@
 #echo "baseurl = http://yum.mariadb.org/10.3/centos7-amd64" >> /etc/yum.repos.d/mariadb.repo
 #echo "gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB" >> /etc/yum.repos.d/mariadb.repo
 #echo "gpgcheck=1" >> /etc/yum.repos.d/mariadb.repo
+
 #Устанавливаем последнюю версию mariadb на centos.
 # yum install -y MariaDB-server MariaDB-client
 #Запускаем mariadb и добавляем в автозагрузку.
